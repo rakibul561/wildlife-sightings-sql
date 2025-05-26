@@ -36,7 +36,7 @@ CREATE TABLE sightings (
 ('Bob White', 'River Delta'),
 ('Carol King', 'Mountain Range');
 
-SELECT * FROM rangers;
+
 -- Insert species
 INSERT INTO species (common_name, scientific_name, discovery_date, conservation_status) VALUES
 ('Snow Leopard', 'Panthera uncia', '1775-01-01', 'Endangered'),
@@ -57,9 +57,16 @@ INSERT INTO
     rangers (name, region)
 VALUES ('Derek Fox', 'Coastal Plains')
 
+
+
 --------problem 2 ----------
+
+
 SELECT COUNT(DISTINCT species_id) AS unique_species_count
 FROM sightings;
+
+
+
 
 -------Problem 3 -------------
 SELECT
@@ -73,6 +80,9 @@ FROM sightings
 WHERE
     location LIKE '%Pass%';
 
+
+
+
 -----problem 4 ----------
 
 SELECT rangers.name, COUNT(sightings.ranger_id) AS total_sightings
@@ -81,18 +91,35 @@ FROM rangers
 GROUP BY rangers.name;
 
 
+
+
 --------problem 5 ----------
 
  SELECT * FROM species 
  WHERE species_id NOT IN (
     SELECT species_id FROM sightings 
- )
+ ) 
+ ----------------problem 6----------------------
+
+  
+ SELECT common_name,sighting_time,name as renjers_name
+FROM sightings
+INNER JOIN species ON species.species_id = sightings.species_id
+INNER JOIN rangers ON rangers.ranger_id = sightings.ranger_id
+ORDER BY sighting_time DESC
+LIMIT 2 ;
+
+
+
+
  
  -----problem 7 ---------
 
   UPDATE species
   SET conservation_status ='Historic'
   WHERE EXTRACT(year FROM  discovery_date) < '1800';
+
+
 
 
 ---------problem 8 -----------
@@ -104,6 +131,7 @@ CASE
     ELSE 'Night'
 END time_of_day 
 FROM sightings ;
+
 
 
 -------------problem 9-----------
