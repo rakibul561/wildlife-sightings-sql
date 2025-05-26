@@ -7,6 +7,7 @@ CREATE Table rangers (
     name VARCHAR(100) NOT NULL,
     region VARCHAR(100)
 );
+ 
 
 -- Create species table
 CREATE TABLE species (
@@ -17,7 +18,8 @@ CREATE TABLE species (
     conservation_status VARCHAR(50)
 );
 
-DROP TABLE sightings;
+
+
 -- Create  sightings table
 CREATE TABLE sightings (
     sighting_id SERIAL PRIMARY KEY,
@@ -34,7 +36,7 @@ CREATE TABLE sightings (
 ('Bob White', 'River Delta'),
 ('Carol King', 'Mountain Range');
 
-
+SELECT * FROM rangers;
 -- Insert species
 INSERT INTO species (common_name, scientific_name, discovery_date, conservation_status) VALUES
 ('Snow Leopard', 'Panthera uncia', '1775-01-01', 'Endangered'),
@@ -85,7 +87,7 @@ GROUP BY rangers.name;
  WHERE species_id NOT IN (
     SELECT species_id FROM sightings 
  )
- ADD
+ 
  -----problem 7 ---------
 
   UPDATE species
@@ -94,3 +96,21 @@ GROUP BY rangers.name;
 
 
 ---------problem 8 -----------
+SELECT sighting_id , sighting_time ,
+CASE 
+    WHEN  EXTRACT(HOUR FROM  sighting_time ) BETWEEN 5 AND 11 THEN  'Morning'
+    WHEN  EXTRACT(HOUR FROM  sighting_time ) BETWEEN 12 AND 17 THEN  'Afternoon'
+    WHEN  EXTRACT(HOUR FROM  sighting_time ) BETWEEN 18 AND 23 THEN  'Evening'
+    ELSE 'Night'
+END time_of_day 
+FROM sightings ;
+
+
+-------------problem 9-----------
+
+ DELETE FROM rangers
+ WHERE ranger_id NOT IN(
+    SELECT DISTINCT ranger_id FROM sightings
+ );
+
+
